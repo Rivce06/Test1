@@ -1,0 +1,65 @@
+nameOverride: ""
+fullnameOverride: ""
+
+backend:
+  replicaCount: 1
+
+  image:
+    repository: samintelli/idurar-backend
+    tag: "82ed80dee9bf8d82af4fc5bc8ead1993287c5faa"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 8888
+    targetPort: 8888
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+frontend:
+  replicaCount: 1
+
+  image:
+    repository: samintelli/idurar-frontend
+    tag: "82ed80dee9bf8d82af4fc5bc8ead1993287c5faa"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+configMap:
+  data:
+    NODE_ENV: production
+    PORT: "8888"
+
+    JWT_SCHEME: jwt
+    JWT_TOKEN_PREFIX: Bearer
+    JWT_TOKEN_EXPIRATION: "18000000"
+    JWT_TOKEN_HASH_ALGO: SHA-256
+
+secret:
+  create: true
+  data: {}
+
+ingress:
+  enabled: false
+  className: nginx
+  annotations: {}
+  hosts: []
+  tls: []

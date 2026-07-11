@@ -1,0 +1,18 @@
+# Node / package managers
+node_modules/
+npm-debug.log*
+
+# Build output
+build/
+dist/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.DS_Store
+
+#values-dev.yaml
+values-dev.yaml

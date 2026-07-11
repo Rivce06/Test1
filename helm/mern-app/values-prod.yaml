@@ -1,0 +1,25 @@
+frontend:
+  replicaCount: 3
+
+backend:
+  replicaCount: 3
+
+mongodb:
+  persistence:
+    size: 20Gi
+
+ingress:
+  enabled: true
+  hosts:
+    - host: mern-app.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+        - path: /api
+          pathType: Prefix
+          service: backend
+  tls:
+    - secretName: mern-app-tls
+      hosts:
+        - mern-app.example.com

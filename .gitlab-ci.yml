@@ -1,0 +1,36 @@
+stages:
+  - validate
+  - build
+  - deploy
+
+variables:
+  IMAGE_TAG: $CI_COMMIT_SHA
+  HELM_EXPERIMENTAL_OCI: "1"
+
+before_script:
+  - apk add --no-cache curl bash git openssh
+  - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  - helm version
+
+lint_chart:
+  stage: validate
+  script:
+    - helm lint helm/mern-app -f helm/mern-app/values-prod.yaml
+
+build_images:
+  stage: build
+  script:
+    - echo "Building frontend image"
+    - echo "docker build -t $CI_REGISTRY_IMAGE/frontend:$IMAGE_TAG ./app/frontend"
+    - echo "Building backend image"
+    - echo "docker build -t $CI_REGISTRY_IMAGE/backend:$IMAGE_TAG ./app/backend"
+    - echo "Pushing images to registry"
+    - echo "docker push $CI_REGISTRY_IMAGE/frontend:$IMAGE_TAG"
+    - echo "docker push $CI_REGISTRY_IMAGE/backend:$IMAGE_TAG"
+
+deploy_helm:
+  stage: deploy
+  script:
+    - helm upgrade --install mern-app helm/mern-app -f helm/mern-app/values-prod.yaml --namespace production --create-namespace
+  environment:
+    name: production
