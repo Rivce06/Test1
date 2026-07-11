@@ -58,8 +58,15 @@ secret:
   data: {}
 
 ingress:
-  enabled: false
+  enabled: true
   className: nginx
-  annotations: {}
-  hosts: []
-  tls: []
+  hosts:
+    - host: idurar.local
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+
+        - path: /api
+          pathType: Prefix
+          service: backend
