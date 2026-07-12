@@ -2,5 +2,20 @@ prometheus:
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
 
+coreDns:
+  enabled: true
+kubeDns:
+  enabled: false
+
+alertmanager:
+  enabled: false
+
 grafana:
-  adminPassword: change-me
+  enabled: true
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-gateway.monitoring.svc.cluster.local:80  # Change this to match your Loki service URL
+      jsonData:
+        maxLines: 1000

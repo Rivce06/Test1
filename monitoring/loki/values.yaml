@@ -1,5 +1,23 @@
+deploymentMode: SingleBinary
+
+singleBinary:
+  replicas: 1
+
 loki:
   auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: filesystem
+
+gateway:
+  enabled: false
+
+monitoring:
+  dashboards:
+    enabled: true
 
 promtail:
   enabled: true
+
+
