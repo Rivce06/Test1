@@ -1,11 +1,9 @@
 resource "helm_release" "argocd" {
-  name             = "argocd"
-  repository       = var.argocd_repo
-  chart            = "argo-cd"
-  version          = var.argocd_chart_version
+  name       = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
 
-  namespace        = kubernetes_namespace.argocd.metadata[0].name
-  create_namespace = false
+  version = "10.1.4"
 
-  wait = true
+  namespace = kubernetes_namespace.argocd.metadata[0].name
 }
