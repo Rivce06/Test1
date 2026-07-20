@@ -1,0 +1,19 @@
+mongodb:
+  uri: ""
+  existingSecret:
+    name: mongodb-exporter-certs
+    key: mongodb-uri
+
+extraArgs:
+  - --no-mongodb.direct-connect
+  - --compatible-mode
+  - --discovering-mode
+  - --collect-all
+  - --collector.diagnosticdata=true
+  - --collector.replicasetstatus=true
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  labels:
+    release: kube-prometheus-stack

@@ -16,6 +16,8 @@ grafana:
     - name: Loki
       type: loki
       access: proxy
-      url: http://loki-gateway.monitoring.svc.cluster.local:80  # Change this to match your Loki service URL
+      url: http://loki-gateway.monitoring.svc.cluster.local:80 
       jsonData:
         maxLines: 1000
+  persistence:
+    enabled: true
